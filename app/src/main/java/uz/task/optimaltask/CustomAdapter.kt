@@ -1,61 +1,46 @@
 package uz.task.optimaltask
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.row_item.view.*
-import uz.task.optimaltask.R
+import uz.task.optimaltask.databinding.RowItemBinding
 import java.util.*
 
-class CustomAdapter(val modelList: List<Model>, val context: Context) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-    ItemMoveCallback.ItemTouchHelperContract {
+class CustomAdapter(private val models: List<Model>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).bind(modelList.get(position));
+        (holder as ViewHolder).bind(models[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ViewHolder(layoutInflater.inflate(R.layout.row_item, parent, false))
+        val binding = RowItemBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        return modelList.size;
+        return models.size
     }
 
-    interface ClickListener {
-        fun onClick(pos: Int, aView: View)
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(private val binding: RowItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model: Model) {
-            itemView.txt.text = model.name
+            binding.txt.text = model.name
 
-            val id = context.resources.getIdentifier(
-                model.name.toLowerCase(),
+            val id = itemView.resources.getIdentifier(
+                model.name.lowercase(Locale.getDefault()),
                 "drawable",
-                context.packageName
+                itemView.context.packageName
             )
-            itemView.img.setImageResource(id)
+            binding.img.setImageResource(id)
         }
     }
 
-    override fun onRowMoved(fromPosition: Int, toPosition: Int) {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(modelList, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(modelList, i, i - 1)
-            }
-        }
-
-        notifyItemMoved(fromPosition, toPosition)
+    interface IClickListener {
+        fun onClick(pos: Int, aView: View)
     }
 
 }

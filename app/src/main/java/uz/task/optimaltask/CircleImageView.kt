@@ -17,9 +17,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageView
-import uz.task.optimaltask.R
 
-class CirleImageView : AppCompatImageView {
+class CircleImageView : AppCompatImageView {
 
     private val mDrawableRect = RectF()
     private val mBorderRect = RectF()
@@ -305,8 +304,8 @@ class CirleImageView : AppCompatImageView {
 
             if (drawable is ColorDrawable) {
                 bitmap = Bitmap.createBitmap(
-                    COLORDRAWABLE_DIMENSION,
-                    COLORDRAWABLE_DIMENSION,
+                    COLOR_DRAWABLE_DIMENSION,
+                    COLOR_DRAWABLE_DIMENSION,
                     BITMAP_CONFIG
                 )
             } else {
@@ -431,7 +430,7 @@ class CirleImageView : AppCompatImageView {
         private val SCALE_TYPE = ImageView.ScaleType.CENTER_CROP
 
         private val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
-        private const val COLORDRAWABLE_DIMENSION = 2
+        private const val COLOR_DRAWABLE_DIMENSION = 2
 
         private const val DEFAULT_BORDER_WIDTH = 0
         private const val DEFAULT_BORDER_COLOR = Color.BLACK
